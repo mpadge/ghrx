@@ -12,8 +12,8 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 
 # ghrx
 
-An R package to manage [**g**ithub](https://github.com) issues via
-[**r**oxygen](https://roxygen2.r-lib.org).
+An R package to document [**g**ithub](https://github.com) issues in git
+via [**r**oxygen](https://roxygen2.r-lib.org).
 
 ## Why?
 
