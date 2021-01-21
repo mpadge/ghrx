@@ -50,8 +50,8 @@ references in commit messages, such as,
 
 The `-m` flags that what follows will be recorded as the commit message,
 and GitHub parses any numbers prefixed with hashes (`#`) as references
-to issues. GitHub also parses several verbs allowing issues to be closed
-via commit messages. As explained in [their
+to issues. GitHub also parses several synonymous verbs allowing issues
+to be closed via commit messages. As explained in [their
 documentation](https://guides.github.com/features/issues/#notifications)
 (see just above “Search”),
 
@@ -174,10 +174,10 @@ the nominated issue.
 As with `@ghrx open`, simply running
 [`devtools::document()`](https://devtools.r-lib.org/reference/document.html)
 will cause that commit to add a comment to the specified issue before
-the `@ghrx comment` has actually be committed or pushed. The associated
-changes can be referenced by including `"#15` in the commit message,
-resulting in a link being inserted *below* the corresponding issue
-comment (in slight contrast to the currently general approach of
+the `@ghrx comment` has actually been committed or pushed. The
+associated changes can be referenced by including `"#15` in the commit
+message, resulting in a link being inserted *below* the corresponding
+issue comment (in slight contrast to the currently general approach of
 committing first and commenting later).
 
 If you forget to reference the issue in your commit message, you can run
@@ -197,7 +197,8 @@ reporting system described in the final section below.
 
 `ghrx` also includes a `close` verb (with the same synonyms as GitHub,
 so any of `close`, `closes`, `closed`, `fix`, `fixes`, or `fixed` will
-work) to close issues.
+work) to close issues. `@ghrx close` commands can also be combined with
+`git close` commands.
 
 ## The `ghrx` workflow
 
@@ -252,12 +253,18 @@ specified actions on a git repository prior to each commit, and can be
 used for almost any conceivable purpose. The R package,
 [`precommit`](https://github.com/lorenzwalthert/precommit/) implements
 several hooks useful for R package development. The `ghrx` package has
-two hooks which ensure that,
+four hooks which ensure that,
 
-1.  Any commits which add `@ghrx` commands (other than `@ghrx note`)
-    also reference the corresponding issues in commit messages;
-2.  Any commits which immediately follow `@ghrx open/comment/close`
-    commands remove those commands from the code.
+1.  Any commits which add `@ghrx` commands also reference the
+    corresponding issues in commit messages;
+2.  Commits which include `@ghrx open/comment/close` commands must be
+    followed by subsequent commits which remove those commands from the
+    code.
+3.  git commit messages which close an issue
+    (`git commit -m "closes #<issue>@`) which was opened by `ghrx` must
+    include a `@ghrx close` command;
+4.  Commits to which a `"gtfx close` command was added must include a
+    commit message which also closes the issue.
 
 ## `ghrx` reports
 
@@ -265,10 +272,11 @@ Because `ghrx` records issue interactions within the code itself, the
 git tree holds an integrated record of all code associated with a given
 issue, and many textual explanations of modifications made in relation
 to that issue. `ghrx` also includes functions to extract all of that
-information order to produce integrated overviews of GitHub issues,
+information in order to produce integrated overviews of GitHub issues,
 including the entirely of an issue beyond just those comments generated
-by `ghrx`, *and* all corresponding modifications to the code. Reports
-can be generated at any time in an issue’s lifecycle by simply running,
+by `ghrx`, interwoven with all corresponding modifications to the code.
+Reports can be generated at any time in an issue’s life cycle by simply
+running,
 
 ``` r
 ghrx_report (<issue_number>)
